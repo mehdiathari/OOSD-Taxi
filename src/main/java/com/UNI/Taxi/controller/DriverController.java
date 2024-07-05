@@ -81,5 +81,35 @@ public class DriverController
         }
     }
 
+    @GetMapping("/drivers/delete/{id}")
+    public String deleteTutorial(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            driverRepository.deleteById(id);
+
+            redirectAttributes.addFlashAttribute("message", "The Driver with id=" + id + " has been deleted successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+        }
+
+        return "redirect:/drivers";
+    }
+
+    @GetMapping("/drivers/{id}/published/{status}")
+    public String updateTutorialPublishedStatus(@PathVariable("id") Long id, @PathVariable("status") boolean published,
+                                                Model model, RedirectAttributes redirectAttributes) {
+        try {
+            driverRepository.updatePublishedStatus(id, published);
+
+            String status = published ? "published" : "disabled";
+            String message = "The Driver id=" + id + " has been " + status;
+
+            redirectAttributes.addFlashAttribute("message", message);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+        }
+
+        return "redirect:/drivers";
+    }
+
 
 }
