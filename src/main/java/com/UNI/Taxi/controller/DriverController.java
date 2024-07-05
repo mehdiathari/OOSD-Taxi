@@ -52,7 +52,34 @@ public class DriverController
         return "driver_form";
     }
 
+    @PostMapping("/drivers/save")
+    public String saveDriver(Driver driver, RedirectAttributes redirectAttributes) {
+        try {
+            driverRepository.save(driver);
 
+            redirectAttributes.addFlashAttribute("message", "The Driver has been saved successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addAttribute("message", e.getMessage());
+        }
+
+        return "redirect:/drivers";
+    }
+
+    @GetMapping("/drivers/{id}")
+    public String editDriver(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            Driver driver = driverRepository.findById(id).get();
+
+            model.addAttribute("driver", driver);
+            model.addAttribute("pageTitle", "Edit Driver (ID: " + id + ")");
+
+            return "driver_form";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+
+            return "redirect:/drivers";
+        }
+    }
 
 
 }
