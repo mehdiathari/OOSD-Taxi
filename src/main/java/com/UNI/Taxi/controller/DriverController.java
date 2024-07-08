@@ -52,6 +52,20 @@ public class DriverController
         return "driver_form";
     }
 
+    @GetMapping("/drivers/delete/{id}")
+    public String deleteTutorial(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            driverRepository.deleteById(id);
+
+            redirectAttributes.addFlashAttribute("message", "The Driver with id=" + id + " has been deleted successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+        }
+
+        return "redirect:/drivers";
+    }
+
+    
     @PostMapping("/drivers/save")
     public String saveDriver(Driver driver, RedirectAttributes redirectAttributes) {
         try {
@@ -81,19 +95,7 @@ public class DriverController
         }
     }
 
-    @GetMapping("/drivers/delete/{id}")
-    public String deleteTutorial(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
-        try {
-            driverRepository.deleteById(id);
-
-            redirectAttributes.addFlashAttribute("message", "The Driver with id=" + id + " has been deleted successfully!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-        }
-
-        return "redirect:/drivers";
-    }
-
+    
     @GetMapping("/drivers/{id}/published/{status}")
     public String updateTutorialPublishedStatus(@PathVariable("id") Long id, @PathVariable("status") boolean published,
                                                 Model model, RedirectAttributes redirectAttributes) {
@@ -110,6 +112,8 @@ public class DriverController
 
         return "redirect:/drivers";
     }
+
+
 
 
 }
