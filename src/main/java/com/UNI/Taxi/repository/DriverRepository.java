@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 public interface DriverRepository extends JpaRepository<Driver,Long>
 {
     List<Driver> findByFamilyContainingIgnoreCase(String keyword);
-
+    List<Driver> findByNameContainingIgnoreCase(String name);
     @Query("UPDATE Driver t SET t.published = :published WHERE t.id = :id")
     @Modifying
     public void updatePublishedStatus(Long id, boolean published);

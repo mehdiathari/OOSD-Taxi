@@ -17,6 +17,7 @@ public class Driver
 
 
     private String name;
+    @Column(nullable =false)
     private String family;
     private Boolean published;
 }
